@@ -6,7 +6,18 @@ function App() {
 
   const operators = ['/', '+', '-', '*', '.'];
   const updateCalc = value => {
+    // Evaluo si el ultimo valor es un operador y si la calculadora no tiene nada O si el ultimo valor es tamb un operador
+    // Para solo poder escribir operadores si hay ya numeros.
+    if(
+      operators.includes(value) && calc === '' ||
+      operators.includes(value) && operators.includes(calc.slice(-1))
+    ){ return;}
+
     setCalc(calc + value);
+
+    if(!operators.includes(value)){
+      setResult(eval(calc + value).toString());
+    }
   }
 
 
@@ -21,11 +32,24 @@ function App() {
     return digits;
   }
 
+  const calculate = () => {
+    setCalc(eval(calc).toString());
+  }
+
+  const deleteLast = () => {
+    if(calc == ''){
+      return;
+    }
+    const value = calc.slice(0, -1); //To remove last value
+    setCalc(value);
+  }
+
   return (
     <div className="App">
         <div className="calculator">
           <div className="display">
-            {result ? <span>(0)</span> : ''} {calc || '0'}
+            {result ? <span>({result})</span> : ''}&nbsp;
+            {calc || '0'}
           </div>  
 
           <div className="operators">
@@ -34,7 +58,7 @@ function App() {
             <button onClick={() => updateCalc('+')}>+</button>
             <button onClick={() => updateCalc('-')}>-</button>
 
-            <button>DEL</button>
+            <button onClick={deleteLast}>DEL</button>
           </div>
 
           <div className="digits">
@@ -42,7 +66,7 @@ function App() {
             <button onClick={() => updateCalc('0')}>0</button>
             <button onClick={() => updateCalc('.')}>.</button>
 
-            <button>=</button>
+            <button onClick={calculate}>=</button>
           </div>
 
         </div>
