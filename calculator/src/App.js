@@ -13,7 +13,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello Word</h1>
         <div className="calculator">
           <div className="display">
             <span>(0)</span> 0
